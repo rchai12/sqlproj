@@ -6,7 +6,6 @@ class DatabaseHelper {
   static const _databaseName = "CardsDatabase.db";
   static const _databaseVersion = 1;
 
-  // Table and column names
   static const foldersTable = 'folders';
   static const cardsTable = 'cards';
 
@@ -20,7 +19,6 @@ class DatabaseHelper {
 
   late Database _db;
 
-  // Initializes database and prepopulates data
   Future<void> init() async {
     final documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, _databaseName);
@@ -32,7 +30,6 @@ class DatabaseHelper {
     await _prepopulateData();
   }
 
-  // Create tables if not exists
   Future _onCreate(Database db, int version) async {
     await db.execute('''CREATE TABLE $foldersTable (
         $columnId INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +48,6 @@ class DatabaseHelper {
     )''');
   }
 
-  // Prepopulate folders and cards data
   Future<void> _prepopulateData() async {
     final suits = ['Diamonds', 'Clubs', 'Hearts', 'Spades'];
     final folderImages = [
@@ -126,7 +122,6 @@ class DatabaseHelper {
         int folderId = await insertFolder(suit, folderImageUrl);
 
         print('Inserted folder: $suit with id $folderId');
-        // Insert 13 cards for each suit
         for (var rank = 1; rank <= 13; rank++) {
           String cardName = _getCardName(rank);
           await insertCard({
@@ -142,7 +137,6 @@ class DatabaseHelper {
     }
   }
 
-  // Helper function to convert rank to card name
   String _getCardName(int rank) {
     switch (rank) {
       case 1:
@@ -166,17 +160,14 @@ class DatabaseHelper {
     });
   }
 
-  // Insert card into the database
   Future<int> insertCard(Map<String, dynamic> row) async {
     return await _db.insert(cardsTable, row);
   }
 
-  // Query all folders
   Future<List<Map<String, dynamic>>> queryAllRows() async {
     return await _db.query(foldersTable);
   }
 
-  // Query cards for a specific folder
   Future<List<Map<String, dynamic>>> query(int folderId) async {
     print('Looking for cards of folder $folderId');
     return await _db.query(
@@ -186,7 +177,6 @@ class DatabaseHelper {
     );
   }
 
-  // Delete card by id
   Future<int> delete(int id) async {
     return await _db.delete(
       cardsTable,
@@ -195,12 +185,10 @@ class DatabaseHelper {
     );
   }
 
-  // Query all cards
   Future<List<Map<String, dynamic>>> queryAllCards() async {
     return await _db.query(cardsTable);
   }
 
-  // Close the database connection
   Future<void> close() async {
     await _db.close();
   }

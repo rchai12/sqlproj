@@ -36,13 +36,11 @@ class _FoldersScreenState extends State<FoldersScreen> {
     _loadFolders();
   }
 
-  // Load the folders from the database
   Future<void> _loadFolders() async {
     List<Map<String, dynamic>> folders = await _databaseHelper.queryAllRows();
     setState(() {
       _folders = folders;
     });
-    // Debug: Print the folders to verify
     print("Folders Loaded: $_folders");
   }
 
@@ -60,7 +58,6 @@ class _FoldersScreenState extends State<FoldersScreen> {
                   title: Text(folder['name']),
                   leading: Image.network(folder['folderImageUrl']),
                   onTap: () {
-                    // Navigate to the CardsScreen with the folder data
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -97,6 +94,7 @@ class CardsScreen extends StatelessWidget {
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
+                childAspectRatio: 0.75,  
               ),
               itemCount: cards.length,
               itemBuilder: (context, index) {
@@ -104,8 +102,17 @@ class CardsScreen extends StatelessWidget {
                 return Card(
                   child: Column(
                     children: [
-                      Image.network(card['imageUrl']),
-                      Text(card['name']),
+                      Image.network(
+                        card['imageUrl'],
+                        fit: BoxFit.contain, 
+                        height: 120, 
+                        width: double.infinity, 
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        card['name'],
+                        textAlign: TextAlign.center, 
+                      ),
                     ],
                   ),
                 );
