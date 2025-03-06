@@ -11,6 +11,13 @@ class DatabaseService {
   final String _foldersContentColumnName = "folder name";
   final String _foldersTimeStampColumnName = "time stamp";
 
+  final String _cardsTablename = "Cards";
+  final String _cardsIdColumnName = "id";
+  final String _cardsNameColumnName = "name";
+  final String _cardsSuitColumnName = "suit";
+  final String _cardsImageColumnName = "image";
+  final String _cardsFolderColumnname = "folder";
+
   DatabaseService._constructor();
 
   Future<Database> get database async {
@@ -30,6 +37,15 @@ class DatabaseService {
           $_foldersIdColumnName INTEGER PRIMARY KEY,
           $_foldersContentColumnName TEXT NOT NULL,
           $_foldersTimeStampColumnName TEXT NOT NULL,
+        )
+        ''');
+        db.execute('''
+        CREATE TABLE: $_cardsTablename (
+            $_cardsIdColumnName INTEGER PRIMARY KEY,
+            $_cardsNameColumnName TEXT NOT NULL,
+            $_cardsSuitColumnName TEXT NOT NULL,
+            $_cardsImageColumnName TEXT NOT NULL,
+            $_cardsFolderColumnname TEXT NOT NULL,
         )
         ''');
       }
