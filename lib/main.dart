@@ -84,7 +84,7 @@ class CardsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Cards in Folder')),
       body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: DatabaseHelper().query(folderId),
+        future: _databaseHelper.query(folderId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());

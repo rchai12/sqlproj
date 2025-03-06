@@ -135,7 +135,7 @@ class DatabaseHelper {
             columnImageUrl: cardImages[imageIndex],
             columnFolderId: folderId,
           });
-          print('Inserted card: $cardName with id $suit');
+          print('Inserted card: $cardName with id $suit and folder $folderId');
           imageIndex++;
         }
       }
@@ -178,6 +178,7 @@ class DatabaseHelper {
 
   // Query cards for a specific folder
   Future<List<Map<String, dynamic>>> query(int folderId) async {
+    print('Looking for cards of folder $folderId');
     return await _db.query(
       cardsTable,
       where: '$columnFolderId = ?',
